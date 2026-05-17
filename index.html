@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>UNO Rounds</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="top-bar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">UNO</div>
+        <div>
+          <h1>UNO Rounds</h1>
+          <p>Four-player UNO game.</p>
+        </div>
+      </div>
+
+      <div class="top-controls" aria-label="Game settings">
+        <div class="control-block">
+          <span class="control-label">CPU Level</span>
+          <div class="segmented" role="group" aria-label="CPU Level">
+            <button type="button" class="level-button is-active" data-difficulty="Easy">Easy</button>
+            <button type="button" class="level-button" data-difficulty="Medium">Medium</button>
+            <button type="button" class="level-button" data-difficulty="Hard">Hard</button>
+          </div>
+        </div>
+        <button type="button" class="plain-button" id="restartMatchButton">Restart Match</button>
+      </div>
+    </header>
+
+    <main class="game-board" id="gameBoard">
+      <section class="cpu-strip cpu-strip-top" aria-label="Computer player two">
+        <div class="player-panel" id="player2Panel"></div>
+      </section>
+
+      <section class="table-grid" aria-label="Game table">
+        <aside class="cpu-side cpu-side-left" aria-label="Computer player one">
+          <div class="player-panel" id="player1Panel"></div>
+        </aside>
+
+        <section class="table-center" aria-label="Cards and game status">
+          <div class="direction-ring" id="directionRing" aria-hidden="true">
+            <span class="flow-arrow flow-arrow-top"></span>
+            <span class="flow-arrow flow-arrow-right"></span>
+            <span class="flow-arrow flow-arrow-bottom"></span>
+            <span class="flow-arrow flow-arrow-left"></span>
+          </div>
+
+          <div class="status-line">
+            <div class="status-pill" id="turnPill">Your Turn</div>
+            <div class="status-pill color-pill" id="colorPill">Red</div>
+            <div class="status-pill" id="directionPill">Clockwise</div>
+            <div class="status-pill" id="roundPill">Round 1</div>
+          </div>
+
+          <div class="pile-row">
+            <button type="button" class="pile draw-pile" id="drawPileButton" aria-label="Draw a card">
+              <span class="pile-title">Draw</span>
+              <span class="pile-count" id="drawPileCount">0</span>
+            </button>
+            <div class="pile discard-pile" id="discardPile" aria-label="Discard pile"></div>
+          </div>
+
+          <div class="start-panel" id="startPanel">
+            <button type="button" class="start-button" id="startGameButton">Start Game</button>
+            <span>Choose a level first.</span>
+          </div>
+
+          <div class="play-feed" id="playFeed" aria-label="Last moves"></div>
+          <div class="message-box" id="messageBox" role="status" aria-live="polite">Your Turn</div>
+        </section>
+
+        <aside class="cpu-side cpu-side-right" aria-label="Computer player three">
+          <div class="player-panel" id="player3Panel"></div>
+        </aside>
+      </section>
+
+      <section class="human-panel" aria-label="Your cards">
+        <div class="human-header">
+          <div class="player-title">
+            <span class="player-name">You</span>
+            <span class="card-total" id="humanCardCount">7 cards</span>
+          </div>
+          <div class="human-actions">
+            <button type="button" class="action-button" id="drawCardButton">Draw Card</button>
+            <button type="button" class="action-button" id="unoButton">UNO</button>
+            <button type="button" class="action-button secondary" id="newRoundButton" disabled>New Round</button>
+          </div>
+        </div>
+        <div class="hand-scroll" id="humanHand" aria-label="Your hand"></div>
+      </section>
+    </main>
+
+  </div>
+
+  <div class="modal-backdrop is-hidden" id="colorModal" role="dialog" aria-modal="true" aria-labelledby="colorModalTitle">
+    <div class="modal-card small-modal">
+      <h2 id="colorModalTitle">Pick a Color</h2>
+      <div class="color-choice-grid">
+        <button type="button" class="color-choice red" data-color="red">Red</button>
+        <button type="button" class="color-choice yellow" data-color="yellow">Yellow</button>
+        <button type="button" class="color-choice green" data-color="green">Green</button>
+        <button type="button" class="color-choice blue" data-color="blue">Blue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop is-hidden" id="roundModal" role="dialog" aria-modal="true" aria-labelledby="roundModalTitle">
+    <div class="modal-card">
+      <h2 id="roundModalTitle">Round Winner</h2>
+      <div class="winner-name" id="winnerName">You Win!</div>
+      <div class="round-summary" id="roundSummary"></div>
+      <div class="modal-actions">
+        <button type="button" class="action-button" id="modalNewRoundButton">New Round</button>
+        <button type="button" class="action-button secondary" id="modalRestartButton">Restart Match</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
