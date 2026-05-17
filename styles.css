@@ -2359,3 +2359,332 @@ button.card:hover {
     height: 26px;
   }
 }
+
+/* Cutoff and waiting-screen fixes. */
+.last-play,
+.feed-item,
+.message-box,
+.start-panel,
+.player-name-line {
+  min-width: 0;
+}
+
+.last-empty,
+.last-draw,
+.last-card-wrap span:last-child,
+.feed-text,
+.message-box {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.last-empty,
+.last-draw {
+  white-space: nowrap;
+}
+
+.last-card-wrap {
+  min-width: 0;
+}
+
+.last-card-wrap span:last-child {
+  min-width: 0;
+}
+
+.game-board.is-waiting {
+  grid-template-rows: 76px minmax(0, 1fr) 72px;
+}
+
+.game-board.is-waiting .player-panel {
+  min-height: 56px;
+  max-height: 60px;
+}
+
+.game-board.is-waiting .mini-card-row,
+.game-board.is-waiting .last-play,
+.game-board.is-waiting .play-feed {
+  display: none;
+}
+
+.game-board.is-waiting .table-center {
+  grid-template-rows: 36px minmax(146px, 1fr) 108px 44px;
+  align-content: center;
+}
+
+.game-board.is-waiting .start-panel {
+  align-self: center;
+  width: min(300px, 100%);
+  padding: 14px 18px;
+}
+
+.game-board.is-waiting .direction-ring {
+  opacity: 0.34;
+}
+
+.game-board.is-waiting .flow-arrow {
+  opacity: 0;
+}
+
+.game-board.is-waiting .human-panel {
+  height: 72px;
+  grid-template-rows: 1fr;
+  align-content: center;
+}
+
+.game-board.is-waiting .human-header {
+  min-height: 0;
+}
+
+.game-board.is-waiting .hand-scroll {
+  display: none;
+}
+
+.game-board.is-waiting .discard-pile {
+  background: rgba(187, 244, 255, 0.34);
+}
+
+@media (max-height: 820px) and (min-width: 901px) {
+  .app-shell {
+    gap: 6px;
+    padding: 6px 10px 8px;
+  }
+
+  .top-bar {
+    min-height: 56px;
+    padding: 6px 10px;
+  }
+
+  .brand-mark {
+    width: 44px;
+    height: 44px;
+  }
+
+  h1 {
+    font-size: 1.42rem;
+  }
+
+  .brand p {
+    font-size: 0.84rem;
+  }
+
+  .level-button,
+  .plain-button,
+  .action-button {
+    min-height: 36px;
+  }
+
+  .game-board {
+    grid-template-rows: 142px minmax(0, 1fr) 184px;
+    gap: 6px;
+    padding: 8px 14px;
+  }
+
+  .player-panel {
+    min-height: 108px;
+    max-height: 150px;
+    padding: 10px;
+  }
+
+  .cpu-strip-top .player-panel {
+    min-height: 130px;
+    max-height: 136px;
+  }
+
+  .player-name-line {
+    margin-bottom: 7px;
+  }
+
+  .mini-card-row {
+    min-height: 32px;
+  }
+
+  .mini-card {
+    width: 20px;
+    height: 30px;
+  }
+
+  .last-play {
+    min-height: 42px;
+    margin-top: 5px;
+    padding: 6px 8px;
+  }
+
+  .cpu-strip-top .last-play {
+    min-height: 28px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+  }
+
+  .cpu-strip-top .last-label {
+    display: none;
+  }
+
+  .cpu-strip-top .last-card-wrap {
+    min-width: 0;
+    gap: 5px;
+    font-size: 0.72rem;
+  }
+
+  .cpu-strip-top .last-empty,
+  .cpu-strip-top .last-draw {
+    font-size: 0.82rem;
+  }
+
+  .cpu-strip-top .last-card {
+    width: 24px;
+    height: 34px;
+    border-width: 2px;
+  }
+
+  .cpu-strip-top .last-card .card-symbol {
+    width: 20px;
+    font-size: 0.56rem;
+  }
+
+  .cpu-strip-top .last-card.small-text .card-symbol {
+    font-size: 0.42rem;
+  }
+
+  .last-label {
+    font-size: 0.68rem;
+  }
+
+  .last-empty,
+  .last-draw {
+    font-size: 0.9rem;
+  }
+
+  .table-center {
+    grid-template-rows: 32px minmax(92px, 1fr) 66px 40px;
+    gap: 6px;
+    padding: 8px;
+  }
+
+  .status-pill {
+    min-height: 30px;
+    padding: 0 11px;
+    font-size: 0.94rem;
+  }
+
+  .pile {
+    width: 104px;
+    height: 144px;
+    border-width: 4px;
+  }
+
+  .play-feed {
+    height: 66px;
+    min-height: 66px;
+    max-height: 66px;
+    padding: 7px 10px;
+  }
+
+  .feed-item {
+    max-height: 52px;
+    padding: 5px 7px;
+  }
+
+  .play-feed .mini-face-card {
+    width: 30px;
+    height: 42px;
+    border-width: 2px;
+  }
+
+  .play-feed .mini-face-card .card-symbol {
+    width: 24px;
+    font-size: 0.62rem;
+  }
+
+  .play-feed .mini-face-card.small-text .card-symbol {
+    font-size: 0.44rem;
+  }
+
+  .message-box {
+    height: 40px;
+    min-height: 40px;
+  }
+
+  .human-panel {
+    height: 184px;
+    grid-template-rows: 34px minmax(0, 1fr);
+    padding: 10px 14px;
+  }
+
+  .human-header {
+    min-height: 34px;
+  }
+
+  .hand-scroll {
+    padding-top: 8px;
+    padding-bottom: 4px;
+  }
+
+  .card {
+    flex-basis: 76px;
+    width: 76px;
+    height: 104px;
+    border-width: 4px;
+  }
+
+  .card-symbol {
+    width: 62px;
+    font-size: 1.36rem;
+  }
+
+  .card.small-text .card-symbol {
+    font-size: 0.84rem;
+  }
+
+  .card.is-playable,
+  button.card:hover {
+    transform: translateY(-8px) rotate(-1deg);
+  }
+
+  .game-board.is-waiting {
+    grid-template-rows: 64px minmax(0, 1fr) 64px;
+  }
+
+  .game-board.is-waiting .table-center {
+    grid-template-rows: 32px minmax(128px, 1fr) 96px 40px;
+  }
+
+  .game-board.is-waiting .human-panel {
+    height: 64px;
+  }
+
+  .game-board.is-waiting .player-panel {
+    min-height: 52px;
+    max-height: 56px;
+  }
+}
+
+@media (max-width: 900px) {
+  .game-board.is-waiting {
+    grid-template-rows: 54px minmax(0, 1fr) 56px;
+  }
+
+  .game-board.is-waiting .table-grid {
+    grid-template-rows: 52px minmax(0, 1fr) 52px;
+  }
+
+  .game-board.is-waiting .table-center {
+    grid-template-rows: 30px minmax(102px, 1fr) 82px 36px;
+  }
+
+  .game-board.is-waiting .start-panel {
+    width: min(260px, 100%);
+    padding: 10px 12px;
+  }
+
+  .game-board.is-waiting .start-button {
+    min-width: 168px;
+    min-height: 48px;
+  }
+
+  .game-board.is-waiting .human-panel {
+    height: 56px;
+  }
+}
