@@ -22,6 +22,10 @@ const HTML_ENTITIES = {
   "\"": "&quot;",
   "'": "&#39;"
 };
+const AUDIO_ASSETS = {
+  uno: "assets/audio/uno.ogg",
+  victory: "assets/audio/victory-jingle.mp3"
+};
 const CPU_TURN_DELAY_MS = 2200;
 
 const state = {
@@ -43,7 +47,8 @@ const state = {
   message: "Your Turn",
   lastPlayedId: null,
   audioContext: null,
-  audioReady: false
+  audioReady: false,
+  mediaAudio: {}
 };
 
 const els = {};
@@ -53,6 +58,7 @@ document.addEventListener("DOMContentLoaded", init);
 function init() {
   cacheElements();
   bindEvents();
+  preloadMediaAudio();
   startMatch();
 }
 
@@ -350,7 +356,7 @@ function handleUno() {
     state.saidUno = true;
     state.message = "UNO!";
     playSound("uno");
-    speakUno();
+    playUnoVoice();
   } else {
     state.message = "Use UNO with two cards.";
     playSound("invalid");
@@ -389,7 +395,7 @@ function playCard(playerIndex, cardIndex, chosenColor) {
     } else {
       state.message = `${player.name} says UNO!`;
       playSound("uno");
-      speakUno();
+      playUnoVoice();
     }
   } else {
     state.message = `${player.name} played ${getCardLabel(playedCard)}.`;
@@ -495,7 +501,7 @@ function finishRound(winnerIndex) {
   state.roundHistory.push(result);
   state.message = winnerIndex === 0 ? "You Win!" : "Try Again";
   state.saidUno = false;
-  playSound(winnerIndex === 0 ? "win" : "loss");
+  playRoundEndAudio(winnerIndex);
   showRoundModal(result);
 }
 
@@ -1007,6 +1013,18 @@ function closeRoundModal() {
   els.roundModal.classList.add("is-hidden");
 }
 
+function preloadMediaAudio() {
+  if (typeof Audio === "undefined") {
+    return;
+  }
+
+  Object.entries(AUDIO_ASSETS).forEach(([key, source]) => {
+    const audio = new Audio(source);
+    audio.preload = "auto";
+    state.mediaAudio[key] = audio;
+  });
+}
+
 function enableAudio() {
   if (state.audioReady) {
     return;
@@ -1025,6 +1043,48 @@ function enableAudio() {
   } catch (error) {
     state.audioContext = null;
     state.audioReady = false;
+  }
+}
+
+function playUnoVoice() {
+  playMediaAudio("uno");
+}
+
+function playRoundEndAudio(winnerIndex) {
+  if (winnerIndex === 0) {
+    playMediaAudio("victory", "win");
+    return;
+  }
+
+  playSound("loss");
+}
+
+function playMediaAudio(key, fallbackSound) {
+  const audio = state.mediaAudio[key];
+  if (!audio) {
+    if (fallbackSound) {
+      playSound(fallbackSound);
+    }
+    return false;
+  }
+
+  try {
+    audio.pause();
+    audio.currentTime = 0;
+    const playPromise = audio.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {
+        if (fallbackSound) {
+          playSound(fallbackSound);
+        }
+      });
+    }
+    return true;
+  } catch (error) {
+    if (fallbackSound) {
+      playSound(fallbackSound);
+    }
+    return false;
   }
 }
 
@@ -1114,24 +1174,6 @@ function playSound(kind) {
     sounds[kind]();
   } else {
     sounds.play();
-  }
-}
-
-function speakUno() {
-  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
-    return;
-  }
-
-  try {
-    const utterance = new SpeechSynthesisUtterance("UNO!");
-    utterance.lang = "en-US";
-    utterance.rate = 0.92;
-    utterance.pitch = 1.18;
-    utterance.volume = 1;
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
-  } catch (error) {
-    // Speech is a nice-to-have browser feature. The Web Audio cue still works.
   }
 }
 

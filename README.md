@@ -23,8 +23,9 @@ The first screen waits for `Start Game`, then deals cards to:
 
 - `index.html`: page markup, SEO metadata, and game shell.
 - `styles.css`: responsive table, cards, animation, and modal styling.
-- `game.js`: deck rules, CPU behavior, rendering, and Web Audio sounds.
-- `assets/`: favicon and README/demo screenshots.
+- `game.js`: deck rules, CPU behavior, rendering, and audio playback.
+- `assets/`: favicon, README/demo screenshots, and bundled audio.
+- `ASSETS.md`: third-party audio source and license notes.
 
 ## Features
 
@@ -36,8 +37,9 @@ The first screen waits for `Start Game`, then deals cards to:
 - UNO button highlight when the player must say UNO before playing down to one card.
 - Full-screen app layout with stable desktop and mobile views.
 - CSS-drawn cards, table, player panels, move log, and direction arrows.
-- Procedural Web Audio sounds for start, deal, play, draw, reverse, skip, wild, penalty, UNO, win, and loss events.
-- Browser speech cue that says "UNO!" when UNO is called, with Web Audio as a fallback cue.
+- Procedural Web Audio sounds for start, deal, play, draw, reverse, skip, wild, penalty, and loss events.
+- Bundled UNO voice cue for human and CPU UNO calls.
+- Bundled short victory jingle when the player wins a round.
 - Basic SEO metadata, social preview tags, and SVG favicon.
 
 ## Controls
@@ -50,7 +52,7 @@ The first screen waits for `Start Game`, then deals cards to:
 
 ## Notes
 
-This is an UNO-inspired private single-player game. It does not use official UNO, Mattel, Ubisoft, or other third-party game assets, logos, art, or audio. Sounds are generated in code with the Web Audio API so the project can be redistributed without bundled sound-effect licensing issues.
+This is an UNO-inspired private single-player game. It does not use official UNO, Mattel, Ubisoft, or other commercial game assets, logos, art, or audio. Bundled audio files are from free-to-use sources and are documented in `ASSETS.md`; the code and original project artwork remain under this repository's license.
 
 The game intentionally exposes a small `window.__colorCardGame` helper only when opened from `file:`, `localhost`, or `127.0.0.1`. This keeps browser-based QA simple without exposing a debug API on the public demo site.
 
@@ -69,5 +71,6 @@ The latest QA pass covered:
 - Stable board, hand, message, and move-log dimensions while cards are played.
 - English-only game UI text.
 - Web Audio context activation after the first user click.
-- UNO prompt, UNO button highlight, and the gentle "Tap UNO first!" block.
+- UNO prompt, UNO button highlight, CPU UNO calls, and the gentle "Tap UNO first!" block.
+- Bundled UNO voice and victory jingle playback with Web Audio fallback behavior.
 - README screenshot, favicon, and page metadata.
