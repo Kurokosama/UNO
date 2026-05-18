@@ -2,7 +2,13 @@
 
 A simple four-player, offline UNO-style browser game for kids. The game runs as a static web app with no server, account, build step, or network dependency.
 
-## Play
+## Demo
+
+Play the hosted demo: <https://web-uno.pages.dev/>
+
+![UNO Rounds gameplay screenshot](assets/gameplay-screenshot.png)
+
+## Run Locally
 
 Open `index.html` in a modern browser.
 
@@ -12,6 +18,13 @@ The first screen waits for `Start Game`, then deals cards to:
 - `CPU 1`
 - `CPU 2`
 - `CPU 3`
+
+## Project Structure
+
+- `index.html`: page markup, SEO metadata, and game shell.
+- `styles.css`: responsive table, cards, animation, and modal styling.
+- `game.js`: deck rules, CPU behavior, rendering, and Web Audio sounds.
+- `assets/`: favicon and README/demo screenshots.
 
 ## Features
 
@@ -23,6 +36,7 @@ The first screen waits for `Start Game`, then deals cards to:
 - Full-screen app layout with stable desktop and mobile views.
 - CSS-drawn cards, table, player panels, move log, and direction arrows.
 - Procedural Web Audio sounds for start, deal, play, draw, reverse, skip, wild, penalty, UNO, win, and loss events.
+- Basic SEO metadata, social preview tags, and SVG favicon.
 
 ## Controls
 
@@ -36,6 +50,8 @@ The first screen waits for `Start Game`, then deals cards to:
 
 This is an UNO-inspired private single-player game. It does not use official UNO, Mattel, Ubisoft, or other third-party game assets, logos, art, or audio. Sounds are generated in code with the Web Audio API so the project can be redistributed without bundled sound-effect licensing issues.
 
+The game intentionally exposes a small `window.__colorCardGame` helper only when opened from `file:`, `localhost`, or `127.0.0.1`. This keeps browser-based QA simple without exposing a debug API on the public demo site.
+
 ## QA Completed
 
 The latest QA pass covered:
@@ -46,10 +62,9 @@ The latest QA pass covered:
 - `Easy`, `Medium`, and `Hard` CPU selection differences.
 - Start screen with no cards dealt before `Start Game`.
 - Round-end modal contrast and buttons.
-- Desktop layout at `1280x900`.
-- Mobile layout at `390x820`.
+- Desktop, mobile, tablet, wide, and ultrawide layout checks.
 - No scoreboard DOM, no body scrollbars, and no visible move-log scrollbar.
 - Stable board, hand, message, and move-log dimensions while cards are played.
 - English-only game UI text.
 - Web Audio context activation after the first user click.
-
+- README screenshot, favicon, and page metadata.

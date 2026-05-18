@@ -15,7 +15,7 @@
   --hand-row: clamp(250px, 29dvh, 294px);
   --card-w: clamp(76px, 6.1vw, 98px);
   --card-h: calc(var(--card-w) * 1.42);
-  --pile-w: clamp(104px, 8.4vw, 128px);
+  --pile-w: clamp(88px, 6vw, 104px);
   --pile-h: calc(var(--pile-w) * 1.42);
   --app-max-w: 1500px;
 }
@@ -446,12 +446,13 @@ h1 {
   position: relative;
   min-height: 0;
   display: grid;
-  grid-template-rows: 38px minmax(0, 1fr) 78px 44px;
+  grid-template-rows: 36px var(--pile-h) 70px 42px;
+  align-content: center;
   align-items: center;
   justify-items: center;
-  gap: 10px;
+  gap: 6px;
   overflow: visible;
-  padding: 10px;
+  padding: 8px;
 }
 
 .direction-ring {
@@ -547,7 +548,7 @@ h1 {
 }
 
 .status-pill {
-  min-height: 36px;
+  min-height: 34px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -689,7 +690,7 @@ h1 {
 
 .play-feed {
   width: min(760px, 100%);
-  height: 78px;
+  height: 70px;
   display: grid;
   grid-template-columns: 116px minmax(0, 1fr);
   align-items: stretch;
@@ -713,7 +714,7 @@ h1 {
 
 .feed-item {
   min-width: 0;
-  height: 58px;
+  height: 52px;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   grid-template-areas:
@@ -783,7 +784,7 @@ h1 {
 
 .message-box {
   width: min(620px, 100%);
-  height: 44px;
+  height: 42px;
   min-width: 0;
   display: flex;
   align-items: center;
@@ -1252,7 +1253,7 @@ button.card:hover {
     --top-row: 142px;
     --hand-row: 204px;
     --card-w: 68px;
-    --pile-w: 92px;
+    --pile-w: 62px;
   }
 
   .app-shell {
@@ -1350,30 +1351,30 @@ button.card:hover {
   }
 
   .table-center {
-    grid-template-rows: 34px minmax(0, 1fr) 66px 40px;
-    gap: 6px;
-    padding: 8px;
+    grid-template-rows: 30px var(--pile-h) 54px 42px;
+    gap: 4px;
+    padding: 4px;
   }
 
   .status-pill {
-    min-height: 32px;
+    min-height: 30px;
     padding: 0 11px;
     font-size: 0.94rem;
   }
 
   .play-feed {
-    height: 66px;
+    height: 54px;
     grid-template-columns: 104px minmax(0, 1fr);
-    padding: 7px 10px;
+    padding: 5px 8px;
   }
 
   .feed-item {
-    height: 52px;
-    padding: 5px 7px;
+    height: 42px;
+    padding: 4px 6px;
   }
 
   .message-box {
-    height: 40px;
+    height: 42px;
   }
 
   .human-panel {
@@ -1497,7 +1498,7 @@ button.card:hover {
 
   .table-center {
     order: 1;
-    grid-template-rows: 28px minmax(0, 1fr) 54px 34px;
+    grid-template-rows: 28px var(--pile-h) 54px 34px;
     gap: 4px;
     padding: 4px 0;
   }
@@ -1740,7 +1741,7 @@ button.card:hover {
   }
 
   .table-center {
-    grid-template-rows: 26px minmax(0, 1fr) 48px 32px;
+    grid-template-rows: 26px var(--pile-h) 48px 32px;
     gap: 3px;
   }
 

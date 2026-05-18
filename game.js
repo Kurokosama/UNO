@@ -15,6 +15,13 @@ const ACTION_LABELS = {
   wild: "Wild",
   wild4: "+4"
 };
+const HTML_ENTITIES = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  "\"": "&quot;",
+  "'": "&#39;"
+};
 const CPU_TURN_DELAY_MS = 2200;
 
 const state = {
@@ -538,7 +545,7 @@ function isPlayable(card) {
   }
 
   const topCard = getTopCard();
-  return card.color === state.currentColor || card.value === topCard.value;
+  return Boolean(topCard) && (card.color === state.currentColor || card.value === topCard.value);
 }
 
 function getTopCard() {
@@ -693,7 +700,11 @@ function chooseWildColor(playerIndex, cardIndex) {
 
 function playHumanTurnCue(previousPlayerIndex) {
   if (previousPlayerIndex !== 0 && state.currentPlayer === 0 && !state.roundOver) {
-    window.setTimeout(() => playSound("turn"), 360);
+    window.setTimeout(() => {
+      if (state.currentPlayer === 0 && !state.roundOver) {
+        playSound("turn");
+      }
+    }, 360);
   }
 }
 
@@ -750,9 +761,9 @@ function renderPlayers() {
     panel.className = `player-panel${state.currentPlayer === index && !state.roundOver ? " is-active" : ""}`;
     panel.innerHTML = `
       <div class="player-name-line">
-        <span class="player-avatar">${getPlayerInitials(index)}</span>
-        <span class="player-name">${player.name}</span>
-        <span class="card-total">${formatCardCount(count)}</span>
+        <span class="player-avatar">${escapeHtml(getPlayerInitials(index))}</span>
+        <span class="player-name">${escapeHtml(player.name)}</span>
+        <span class="card-total">${escapeHtml(formatCardCount(count))}</span>
       </div>
       <div class="mini-card-row" aria-hidden="true">
         ${Array.from({ length: Math.min(count, 8) }, () => `<span class="mini-card"></span>`).join("")}
@@ -789,9 +800,9 @@ function renderPlayFeed() {
     <div class="feed-list">
       ${state.playFeed.slice(0, 4).map((entry) => `
         <div class="feed-item ${entry.kind}">
-          <span class="feed-player">${entry.player}</span>
+          <span class="feed-player">${escapeHtml(entry.player)}</span>
           ${entry.card ? renderMiniCard(entry.card, "feed-card") : `<span class="feed-chip">Draw</span>`}
-          <span class="feed-text">${entry.text}</span>
+          <span class="feed-text">${escapeHtml(entry.text)}</span>
         </div>
       `).join("")}
     </div>
@@ -853,12 +864,12 @@ function renderLastMove(lastMove) {
     return `<span class="last-empty">Waiting</span>`;
   }
   if (lastMove.kind === "draw") {
-    return `<span class="last-draw">${lastMove.text}</span>`;
+    return `<span class="last-draw">${escapeHtml(lastMove.text)}</span>`;
   }
   return `
     <div class="last-card-wrap">
       ${renderMiniCard(lastMove.card, "last-card")}
-      <span>${lastMove.text}</span>
+      <span>${escapeHtml(lastMove.text)}</span>
     </div>
   `;
 }
@@ -871,10 +882,11 @@ function renderMiniCard(card, extraClass) {
 }
 
 function getCardInnerHtml(label) {
+  const safeLabel = escapeHtml(label);
   return `
-    <span class="card-corner">${label}</span>
-    <span class="card-symbol">${label}</span>
-    <span class="card-corner bottom">${label}</span>
+    <span class="card-corner">${safeLabel}</span>
+    <span class="card-symbol">${safeLabel}</span>
+    <span class="card-corner bottom">${safeLabel}</span>
   `;
 }
 
@@ -943,11 +955,15 @@ function showRoundModal(result) {
   els.winnerName.textContent = result.winner === "You" ? "You Win!" : `${result.winner} Wins`;
   els.roundSummary.innerHTML = state.players.map((player, index) => `
     <div class="summary-row">
-      <span>${player.name}</span>
-      <span>${formatCardCount(result.counts[index])}</span>
+      <span>${escapeHtml(player.name)}</span>
+      <span>${escapeHtml(formatCardCount(result.counts[index]))}</span>
     </div>
   `).join("");
   els.roundModal.classList.remove("is-hidden");
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, (character) => HTML_ENTITIES[character]);
 }
 
 function closeRoundModal() {
@@ -1126,17 +1142,23 @@ function playNoise(duration, delay, volume, cutoff) {
   source.stop(start + duration + 0.02);
 }
 
-window.__colorCardGame = {
-  state,
-  createDeck,
-  isPlayable,
-  startRound,
-  startMatch,
-  startGame,
-  playCard,
-  drawCards,
-  chooseCpuCard,
-  chooseWildColor,
-  getNextPlayer,
-  render
-};
+if (isLocalDebugHost()) {
+  window.__colorCardGame = {
+    state,
+    createDeck,
+    isPlayable,
+    startRound,
+    startMatch,
+    startGame,
+    playCard,
+    drawCards,
+    chooseCpuCard,
+    chooseWildColor,
+    getNextPlayer,
+    render
+  };
+}
+
+function isLocalDebugHost() {
+  return location.protocol === "file:" || ["localhost", "127.0.0.1"].includes(location.hostname);
+}
