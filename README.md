@@ -37,6 +37,7 @@ The first screen waits for `Start Game`, then deals cards to:
 - UNO button highlight when the player must say UNO before playing down to one card.
 - Full-screen app layout with stable desktop and mobile views.
 - CSS-drawn cards, table, player panels, move log, and direction arrows.
+- Light corner celebration effect when the player wins a round.
 - Procedural Web Audio sounds for start, deal, play, draw, reverse, skip, wild, penalty, and loss events.
 - Bundled UNO voice cue for human and CPU UNO calls.
 - Bundled short victory jingle when the player wins a round.
@@ -66,6 +67,7 @@ The latest QA pass covered:
 - `Easy`, `Medium`, and `Hard` CPU selection differences.
 - Start screen with no cards dealt before `Start Game`.
 - Round-end modal contrast and buttons.
+- Player-win celebration effect.
 - Desktop, mobile, tablet, wide, and ultrawide layout checks.
 - No scoreboard DOM, no body scrollbars, and no visible move-log scrollbar.
 - Stable board, hand, message, and move-log dimensions while cards are played.

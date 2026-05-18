@@ -1129,7 +1129,124 @@ button.card:hover {
   display: none;
 }
 
+.celebration-burst {
+  position: fixed;
+  bottom: clamp(88px, 13vh, 150px);
+  z-index: 21;
+  width: 124px;
+  height: 120px;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.celebration-left {
+  left: max(24px, calc(50vw - 330px));
+}
+
+.celebration-right {
+  right: max(24px, calc(50vw - 330px));
+  transform: scaleX(-1);
+}
+
+#roundModal.is-human-win .celebration-burst {
+  opacity: 1;
+}
+
+.celebration-burst::before {
+  position: absolute;
+  bottom: 0;
+  left: 34px;
+  width: 56px;
+  height: 38px;
+  content: "";
+  background: linear-gradient(135deg, #ffb22e 0 45%, #f3363d 46% 100%);
+  border: 3px solid #fff5c8;
+  border-radius: 12px 12px 8px 8px;
+  box-shadow: 0 8px 22px rgba(255, 54, 61, 0.36);
+  transform: rotate(-10deg);
+}
+
+.celebration-burst::after {
+  position: absolute;
+  bottom: 15px;
+  left: 14px;
+  width: 44px;
+  height: 8px;
+  content: "";
+  background: #fff2b6;
+  border-radius: 999px;
+  box-shadow: 28px -10px 0 #fff2b6;
+  transform: rotate(16deg);
+}
+
+.celebration-burst span {
+  position: absolute;
+  bottom: 36px;
+  left: 58px;
+  width: 10px;
+  height: 24px;
+  background: var(--burst-color, #ffdb3b);
+  border-radius: 3px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.42);
+  opacity: 0;
+  transform: translate(0, 0) rotate(0deg);
+  animation: party-pop 1100ms cubic-bezier(0.16, 0.88, 0.28, 1.12) both;
+}
+
+.celebration-burst span:nth-child(1) {
+  --burst-color: #ffda38;
+  --burst-x: -54px;
+  --burst-y: -78px;
+  --burst-rotate: -34deg;
+}
+
+.celebration-burst span:nth-child(2) {
+  --burst-color: #ef3338;
+  --burst-x: -22px;
+  --burst-y: -104px;
+  --burst-rotate: 18deg;
+  animation-delay: 60ms;
+}
+
+.celebration-burst span:nth-child(3) {
+  --burst-color: #2f80ed;
+  --burst-x: 18px;
+  --burst-y: -100px;
+  --burst-rotate: 44deg;
+  animation-delay: 110ms;
+}
+
+.celebration-burst span:nth-child(4) {
+  --burst-color: #27ae60;
+  --burst-x: 48px;
+  --burst-y: -72px;
+  --burst-rotate: 76deg;
+  animation-delay: 150ms;
+}
+
+.celebration-burst span:nth-child(5) {
+  --burst-color: #ffffff;
+  --burst-x: -72px;
+  --burst-y: -38px;
+  --burst-rotate: 112deg;
+  width: 8px;
+  height: 18px;
+  animation-delay: 190ms;
+}
+
+.celebration-burst span:nth-child(6) {
+  --burst-color: #ff8f2e;
+  --burst-x: 74px;
+  --burst-y: -40px;
+  --burst-rotate: -112deg;
+  width: 8px;
+  height: 18px;
+  animation-delay: 220ms;
+}
+
 .modal-card {
+  position: relative;
+  z-index: 22;
   width: min(460px, 100%);
   max-height: calc(100dvh - 36px);
   overflow: auto;
@@ -1228,6 +1345,23 @@ button.card:hover {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes party-pop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0deg) scale(0.65);
+  }
+  18% {
+    opacity: 1;
+  }
+  72% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--burst-x), var(--burst-y)) rotate(var(--burst-rotate)) scale(1);
   }
 }
 

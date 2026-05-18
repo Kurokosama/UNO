@@ -163,6 +163,7 @@ function startMatch() {
 }
 
 function startGame() {
+  enableAudio();
   state.roundHistory = [];
   state.roundNumber = 1;
   startRound();
@@ -501,8 +502,8 @@ function finishRound(winnerIndex) {
   state.roundHistory.push(result);
   state.message = winnerIndex === 0 ? "You Win!" : "Try Again";
   state.saidUno = false;
-  playRoundEndAudio(winnerIndex);
   showRoundModal(result);
+  playRoundEndAudio(winnerIndex);
 }
 
 function recordCardPlay(playerIndex, card) {
@@ -995,6 +996,7 @@ function closeColorModal() {
 }
 
 function showRoundModal(result) {
+  els.roundModal.classList.toggle("is-human-win", result.winner === "You");
   els.winnerName.textContent = result.winner === "You" ? "You Win!" : `${result.winner} Wins`;
   els.roundSummary.innerHTML = state.players.map((player, index) => `
     <div class="summary-row">
@@ -1011,6 +1013,7 @@ function escapeHtml(value) {
 
 function closeRoundModal() {
   els.roundModal.classList.add("is-hidden");
+  els.roundModal.classList.remove("is-human-win");
 }
 
 function preloadMediaAudio() {
@@ -1021,11 +1024,13 @@ function preloadMediaAudio() {
   Object.entries(AUDIO_ASSETS).forEach(([key, source]) => {
     const audio = new Audio(source);
     audio.preload = "auto";
+    audio.volume = key === "victory" ? 0.95 : 1;
     state.mediaAudio[key] = audio;
   });
 }
 
 function enableAudio() {
+  unlockMediaAudio();
   if (state.audioReady) {
     return;
   }
@@ -1046,12 +1051,38 @@ function enableAudio() {
   }
 }
 
+function unlockMediaAudio() {
+  Object.values(state.mediaAudio).forEach((audio) => {
+    if (audio.dataset.unlocked === "true") {
+      return;
+    }
+
+    const originalMuted = audio.muted;
+    audio.muted = true;
+    const playPromise = audio.play();
+    if (!playPromise || typeof playPromise.then !== "function") {
+      audio.muted = originalMuted;
+      return;
+    }
+
+    playPromise.then(() => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.muted = originalMuted;
+      audio.dataset.unlocked = "true";
+    }).catch(() => {
+      audio.muted = originalMuted;
+    });
+  });
+}
+
 function playUnoVoice() {
   playMediaAudio("uno");
 }
 
 function playRoundEndAudio(winnerIndex) {
   if (winnerIndex === 0) {
+    playSound("win");
     playMediaAudio("victory", "win");
     return;
   }
