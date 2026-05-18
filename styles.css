@@ -12,11 +12,12 @@
   --radius: 10px;
   --header-h: 74px;
   --top-row: clamp(166px, 15dvh, 190px);
-  --hand-row: clamp(218px, 22dvh, 264px);
+  --hand-row: clamp(250px, 29dvh, 294px);
   --card-w: clamp(76px, 6.1vw, 98px);
   --card-h: calc(var(--card-w) * 1.42);
   --pile-w: clamp(104px, 8.4vw, 128px);
   --pile-h: calc(var(--pile-w) * 1.42);
+  --app-max-w: 1500px;
 }
 
 * {
@@ -67,8 +68,9 @@ p {
 
 .app-shell {
   position: relative;
-  width: 100vw;
+  width: min(100vw, var(--app-max-w));
   height: 100dvh;
+  margin: 0 auto;
   display: grid;
   grid-template-rows: var(--header-h) minmax(0, 1fr);
   gap: 8px;
@@ -489,25 +491,25 @@ h1 {
 }
 
 .flow-arrow-top {
-  left: 58%;
-  top: 14%;
+  left: 60%;
+  top: -18%;
   transform: translate(-50%, -50%);
 }
 
 .flow-arrow-right {
-  right: 7%;
+  right: -2%;
   top: 50%;
   transform: translate(50%, -50%) rotate(90deg);
 }
 
 .flow-arrow-bottom {
-  left: 42%;
-  bottom: 14%;
+  left: 40%;
+  bottom: -18%;
   transform: translate(-50%, 50%) rotate(180deg);
 }
 
 .flow-arrow-left {
-  left: 7%;
+  left: -2%;
   top: 50%;
   transform: translate(-50%, -50%) rotate(270deg);
 }
@@ -689,9 +691,9 @@ h1 {
   width: min(760px, 100%);
   height: 78px;
   display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  align-items: center;
-  gap: 10px;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: stretch;
+  gap: 12px;
   overflow: hidden;
   padding: 9px 12px;
   color: #fff;
@@ -773,6 +775,12 @@ h1 {
   white-space: nowrap;
 }
 
+.feed-title {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
 .message-box {
   width: min(620px, 100%);
   height: 44px;
@@ -841,7 +849,7 @@ h1 {
   gap: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  padding: 14px 8px 6px;
+  padding: 28px 8px 8px;
   scrollbar-width: none;
 }
 
@@ -1242,9 +1250,9 @@ button.card:hover {
   :root {
     --header-h: 60px;
     --top-row: 142px;
-    --hand-row: 184px;
-    --card-w: 72px;
-    --pile-w: 96px;
+    --hand-row: 204px;
+    --card-w: 68px;
+    --pile-w: 92px;
   }
 
   .app-shell {
@@ -1355,7 +1363,7 @@ button.card:hover {
 
   .play-feed {
     height: 66px;
-    grid-template-columns: 82px minmax(0, 1fr);
+    grid-template-columns: 104px minmax(0, 1fr);
     padding: 7px 10px;
   }
 
@@ -1375,7 +1383,7 @@ button.card:hover {
   }
 
   .hand-scroll {
-    padding-top: 8px;
+    padding-top: 24px;
     padding-bottom: 4px;
   }
 
@@ -1394,11 +1402,11 @@ button.card:hover {
 
 @media (max-width: 900px) {
   :root {
-    --header-h: 132px;
-    --top-row: 116px;
-    --hand-row: 158px;
-    --card-w: 64px;
-    --pile-w: 78px;
+    --header-h: 96px;
+    --top-row: 56px;
+    --hand-row: 170px;
+    --card-w: 62px;
+    --pile-w: 72px;
   }
 
   .app-shell {
@@ -1435,17 +1443,17 @@ button.card:hover {
 
   .top-controls {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr) 122px;
     gap: 6px;
   }
 
   .control-block {
     display: grid;
-    grid-template-columns: 66px 1fr;
-    gap: 6px;
+    grid-template-columns: 1fr;
   }
 
   .control-label {
+    display: none;
     font-size: 0.78rem;
   }
 
@@ -1479,7 +1487,7 @@ button.card:hover {
 
   .table-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: 54px minmax(0, 1fr) 54px;
+    grid-template-rows: 44px minmax(0, 1fr) 44px;
     gap: 6px;
   }
 
@@ -1489,7 +1497,7 @@ button.card:hover {
 
   .table-center {
     order: 1;
-    grid-template-rows: 30px minmax(0, 1fr) 62px 36px;
+    grid-template-rows: 28px minmax(0, 1fr) 54px 34px;
     gap: 4px;
     padding: 4px 0;
   }
@@ -1505,10 +1513,10 @@ button.card:hover {
   .player-panel,
   .cpu-strip-top .player-panel {
     width: 100%;
-    min-height: 50px;
-    max-height: 54px;
+    min-height: 44px;
+    max-height: 44px;
     grid-template-rows: 1fr;
-    padding: 6px 8px;
+    padding: 5px 8px;
     border-radius: 10px;
   }
 
@@ -1554,16 +1562,32 @@ button.card:hover {
     height: 26px;
   }
 
+  .flow-arrow-top {
+    display: none;
+  }
+
+  .flow-arrow-right {
+    right: -10%;
+  }
+
+  .flow-arrow-bottom {
+    display: none;
+  }
+
+  .flow-arrow-left {
+    left: -10%;
+  }
+
   .play-feed {
-    height: 62px;
-    grid-template-columns: 58px minmax(0, 1fr);
+    height: 54px;
+    grid-template-columns: 76px minmax(0, 1fr);
     gap: 5px;
-    padding: 5px 6px;
+    padding: 4px 6px;
     border-radius: 10px;
   }
 
   .feed-title {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
   }
 
   .feed-list {
@@ -1572,10 +1596,14 @@ button.card:hover {
   }
 
   .feed-item {
-    height: 50px;
+    height: 44px;
     gap: 2px 5px;
-    padding: 4px 5px;
+    padding: 3px 5px;
     border-radius: 8px;
+  }
+
+  .feed-item:nth-child(n+3) {
+    display: none;
   }
 
   .feed-player,
@@ -1584,12 +1612,12 @@ button.card:hover {
   }
 
   .play-feed .mini-face-card {
-    width: 30px;
-    height: 42px;
+    width: 28px;
+    height: 38px;
   }
 
   .message-box {
-    height: 36px;
+    height: 34px;
     padding: 5px 8px;
     border-width: 2px;
     font-size: 0.84rem;
@@ -1631,7 +1659,7 @@ button.card:hover {
   }
 
   .hand-scroll {
-    padding: 12px 3px 4px;
+    padding: 16px 3px 4px;
   }
 
   .card {
@@ -1670,11 +1698,16 @@ button.card:hover {
   }
 
   .game-board.is-waiting {
-    grid-template-rows: 56px minmax(0, 1fr) 56px;
+    grid-template-rows: 50px minmax(0, 1fr) 56px;
+  }
+
+  .game-board.is-waiting .player-panel {
+    min-height: 44px;
+    max-height: 44px;
   }
 
   .game-board.is-waiting .table-center {
-    grid-template-rows: 30px minmax(0, 1fr) 96px 36px;
+    grid-template-rows: 28px minmax(0, 1fr) 88px 34px;
   }
 
   .game-board.is-waiting .start-panel {
@@ -1690,13 +1723,43 @@ button.card:hover {
 
 @media (max-width: 420px) {
   :root {
-    --card-w: 62px;
-    --hand-row: 156px;
+    --card-w: 60px;
+    --hand-row: 166px;
+    --pile-w: 64px;
+  }
+
+  .flow-arrow-top,
+  .flow-arrow-bottom {
+    display: none;
   }
 
   .status-pill {
+    min-height: 24px;
     padding: 0 6px;
     font-size: 0.68rem;
+  }
+
+  .table-center {
+    grid-template-rows: 26px minmax(0, 1fr) 48px 32px;
+    gap: 3px;
+  }
+
+  .play-feed {
+    height: 48px;
+  }
+
+  .feed-item {
+    height: 40px;
+  }
+
+  .play-feed .mini-face-card {
+    width: 25px;
+    height: 35px;
+  }
+
+  .message-box {
+    height: 32px;
+    font-size: 0.8rem;
   }
 
   .human-actions #drawCardButton {
