@@ -1062,6 +1062,13 @@ button.card:hover {
   box-shadow: 0 0 0 0 rgba(255, 226, 80, 0.84), 0 0 28px rgba(255, 191, 51, 0.75);
 }
 
+.action-button.needs-uno {
+  animation: draw-breathe 0.95s ease-in-out infinite;
+  background: linear-gradient(180deg, #fff173, #ff563f 44%, #c90823);
+  border-color: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 0 0 0 rgba(255, 226, 80, 0.84), 0 0 30px rgba(255, 58, 56, 0.84);
+}
+
 .draw-pile.needs-draw {
   animation: draw-pile-breathe 1.05s ease-in-out infinite;
 }

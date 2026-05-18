@@ -33,16 +33,18 @@ The first screen waits for `Start Game`, then deals cards to:
 - Common UNO-style cards: numbers, `Skip`, `Reverse`, `+2`, `Wild`, and `+4`.
 - No turn timer and no harsh UNO penalty.
 - Draw button highlight when the player has no playable card.
+- UNO button highlight when the player must say UNO before playing down to one card.
 - Full-screen app layout with stable desktop and mobile views.
 - CSS-drawn cards, table, player panels, move log, and direction arrows.
 - Procedural Web Audio sounds for start, deal, play, draw, reverse, skip, wild, penalty, UNO, win, and loss events.
+- Browser speech cue that says "UNO!" when UNO is called, with Web Audio as a fallback cue.
 - Basic SEO metadata, social preview tags, and SVG favicon.
 
 ## Controls
 
 - `Start Game`: begin a new match.
 - `Draw Card`: draw one card and pass the turn.
-- `UNO`: say UNO when you have two cards before playing down to one card.
+- `UNO`: say UNO when you have two cards before playing down to one card. The game gently blocks that play until UNO is called.
 - `New Round`: appears after a round ends.
 - `Restart Match`: clears the match and returns to the start screen.
 
@@ -67,4 +69,5 @@ The latest QA pass covered:
 - Stable board, hand, message, and move-log dimensions while cards are played.
 - English-only game UI text.
 - Web Audio context activation after the first user click.
+- UNO prompt, UNO button highlight, and the gentle "Tap UNO first!" block.
 - README screenshot, favicon, and page metadata.

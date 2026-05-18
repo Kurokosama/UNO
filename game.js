@@ -286,6 +286,13 @@ function handleHumanCardClick(cardIndex) {
     return;
   }
 
+  if (mustSayUnoBeforePlay(0)) {
+    state.message = "Tap UNO first!";
+    playSound("invalid");
+    render();
+    return;
+  }
+
   if (card.type === "wild") {
     state.pendingWildIndex = cardIndex;
     openColorModal();
@@ -343,6 +350,7 @@ function handleUno() {
     state.saidUno = true;
     state.message = "UNO!";
     playSound("uno");
+    speakUno();
   } else {
     state.message = "Use UNO with two cards.";
     playSound("invalid");
@@ -377,9 +385,11 @@ function playCard(playerIndex, cardIndex, chosenColor) {
 
   if (player.hand.length === 1) {
     if (playerIndex === 0) {
-      state.message = state.saidUno ? "UNO!" : "Say UNO next time!";
+      state.message = "UNO!";
     } else {
       state.message = `${player.name} says UNO!`;
+      playSound("uno");
+      speakUno();
     }
   } else {
     state.message = `${player.name} played ${getCardLabel(playedCard)}.`;
@@ -717,6 +727,7 @@ function countColors(cards) {
 
 function render() {
   const drawPrompt = shouldPromptHumanDraw();
+  const unoPrompt = shouldPromptHumanUno();
   els.gameBoard.classList.toggle("is-waiting", !state.gameStarted);
   els.gameBoard.classList.toggle("is-counter", state.direction === -1);
   els.startPanel.classList.toggle("is-hidden", state.gameStarted);
@@ -726,13 +737,14 @@ function render() {
   renderPlayFeed();
   renderHumanHand();
   renderDifficulty();
-  els.messageBox.textContent = state.message;
+  els.messageBox.textContent = getMessageText(drawPrompt, unoPrompt);
   els.newRoundButton.disabled = !state.gameStarted || !state.roundOver;
   els.drawCardButton.disabled = !state.gameStarted || state.roundOver || state.currentPlayer !== 0;
   els.drawPileButton.disabled = !state.gameStarted || state.roundOver || state.currentPlayer !== 0;
-  els.unoButton.disabled = !state.gameStarted || state.roundOver;
+  els.unoButton.disabled = !canSayUno();
   els.drawCardButton.classList.toggle("needs-draw", drawPrompt);
   els.drawPileButton.classList.toggle("needs-draw", drawPrompt);
+  els.unoButton.classList.toggle("needs-uno", unoPrompt);
 }
 
 function renderStatus() {
@@ -938,6 +950,31 @@ function shouldPromptHumanDraw() {
   return state.players[0].hand.length > 0 && !state.players[0].hand.some((card) => isPlayable(card));
 }
 
+function shouldPromptHumanUno() {
+  if (!state.gameStarted || state.roundOver || state.currentPlayer !== 0 || state.saidUno) {
+    return false;
+  }
+  return state.players[0].hand.length === 2 && state.players[0].hand.some((card) => isPlayable(card));
+}
+
+function mustSayUnoBeforePlay(playerIndex) {
+  return playerIndex === 0 && state.players[0].hand.length === 2 && !state.saidUno;
+}
+
+function canSayUno() {
+  return state.gameStarted && !state.roundOver && state.currentPlayer === 0 && state.players[0].hand.length === 2 && !state.saidUno;
+}
+
+function getMessageText(drawPrompt, unoPrompt) {
+  if (unoPrompt) {
+    return "Tap UNO first!";
+  }
+  if (drawPrompt) {
+    return "Draw a card.";
+  }
+  return state.message;
+}
+
 function getHumanDrawHint() {
   return shouldPromptHumanDraw() ? "Draw a card." : "";
 }
@@ -1077,6 +1114,24 @@ function playSound(kind) {
     sounds[kind]();
   } else {
     sounds.play();
+  }
+}
+
+function speakUno() {
+  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+    return;
+  }
+
+  try {
+    const utterance = new SpeechSynthesisUtterance("UNO!");
+    utterance.lang = "en-US";
+    utterance.rate = 0.92;
+    utterance.pitch = 1.18;
+    utterance.volume = 1;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  } catch (error) {
+    // Speech is a nice-to-have browser feature. The Web Audio cue still works.
   }
 }
 
